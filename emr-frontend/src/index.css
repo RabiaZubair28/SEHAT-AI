@@ -1,0 +1,476 @@
+@import "tailwindcss";
+@plugin 'tailwind-scrollbar';
+
+:root {
+  --color-green-custom: #064526;
+  --color-gray-custom: #d9d9d9;
+  --bg-tint: #f4f8f5;
+  --border-tint: #c3dece;
+  --color-text-custom: #0f1f17;
+
+  /* Brand green tint scale — a single monochrome system for the landing page */
+  --green-50: #f0f7f3;
+  --green-100: #dcece3;
+  --green-200: #b9d9c8;
+  --green-300: #8bbda4;
+  --green-400: #4e9271;
+  --green-500: #1f6b45;
+  --green-600: #0e7a45;
+  --green-700: #0a5d34;
+  --green-800: #064526;
+  --green-900: #052e19;
+
+  /* Green-tinted elevation — warmer and more branded than neutral gray shadow */
+  --shadow-green-sm: 0 6px 16px -8px rgba(6, 69, 38, 0.28);
+  --shadow-green-md: 0 18px 36px -18px rgba(6, 69, 38, 0.32);
+  --shadow-green-lg: 0 30px 60px -24px rgba(6, 69, 38, 0.4);
+}
+
+@theme {
+  --color-green-custom: #064526;
+  --color-text-custom: #0f1f17;
+}
+
+/* A page tints the layout's content area by rendering an element with
+   data-page-bg="tint". BaseLayout's <Content> reads --content-bg for its
+   background (an inline style, so it has to go through a variable). */
+.ant-layout-content:has([data-page-bg="tint"]) {
+  --content-bg: var(--bg-tint);
+  border: 1px solid var(--border-tint);
+}
+
+/* Pulsing facility marker on the Sindh coverage map */
+@keyframes coverage-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  70%,
+  100% {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+.coverage-ping {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: coverage-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* ── Landing page helpers ───────────────────────────────── */
+/* Smooth in-page anchor navigation */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Offset anchored sections so the sticky navbar doesn't overlap headings */
+.landing-anchor {
+  scroll-margin-top: 7rem;
+}
+
+/* Conveyor-belt marquee for the trust strip. The track holds several
+   identical copies of the list (see TrustStrip's REPEAT constant) so that
+   one copy is always wider than the viewport — otherwise the belt runs out
+   of chips before the loop point and you see a blank gap + jump on wide
+   screens. Translating by exactly one copy's width (-100% / REPEAT) means
+   the loop point is pixel-identical to the start, so it's seamless. */
+@keyframes landing-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% / 8));
+  }
+}
+.landing-marquee {
+  overflow: hidden;
+}
+.landing-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: landing-marquee 34s linear infinite;
+}
+/* Pause when the visitor hovers so labels are readable */
+.landing-marquee:hover .landing-marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-marquee-track {
+    animation: none;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* Reveal-on-scroll animation (paired with useReveal hook) */
+.reveal {
+  opacity: 0;
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform, filter;
+}
+
+/* Entrance directions — the element rests here until it scrolls into view */
+.reveal--up {
+  transform: translateY(28px);
+}
+.reveal--left {
+  transform: translateX(-44px);
+}
+.reveal--right {
+  transform: translateX(44px);
+}
+.reveal--scale {
+  transform: scale(0.92);
+}
+.reveal--blur {
+  transform: translateY(24px);
+  filter: blur(14px);
+}
+
+/* Settled state — shared by every variant */
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}
+
+.ant-radio-disabled.ant-radio-checked .ant-radio-inner {
+  background-color: #f0f0f0; /* lighter gray */
+  border-color: #d9d9d9; /* lighter border */
+}
+
+/* Optional: remove the inner circle completely */
+.ant-radio-disabled.ant-radio-checked .ant-radio-inner::after {
+  background-color: white; /* hide the inner dot */
+}
+
+.ant-typography {
+  color: var(--color-green-custom) !important;
+}
+
+button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Reduce top/bottom padding in table rows */
+.ant-table-wrapper .ant-table-tbody > tr > td,
+.ant-table-wrapper .ant-table-thead > tr > th {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  font-size: 12px !important;
+}
+
+.ant-table-cell {
+  text-align: center !important;
+}
+
+/* custom-pagination.css */
+.ant-pagination .ant-pagination-item {
+  border-color: #064526;
+  margin-inline: 2px !important;
+}
+
+.ant-pagination .ant-pagination-item a {
+  color: #064526;
+}
+
+.ant-pagination .ant-pagination-item-active {
+  background-color: #064526;
+  border-color: #064526;
+}
+
+.ant-pagination .ant-pagination-item-active a {
+  color: #fff;
+}
+
+.ant-pagination .ant-pagination-prev .ant-pagination-item-link,
+.ant-pagination .ant-pagination-next .ant-pagination-item-link {
+  color: #064526;
+  border-color: #064526;
+}
+
+/* :root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #064526 !important;
+  border-color: var(--color-green-custom) !important;
+}
+
+.ant-checkbox-input:focus + .ant-checkbox-inner {
+  border-color: var(--color-green-custom) !important;
+}
+/* Input border + shadow when focused */
+
+.ant-input-affix-wrapper:hover,
+.ant-input-affix-wrapper-focused {
+  border-color: var(--color-green-custom) !important;
+  box-shadow: 0 0 0 2px rgba(6, 69, 38, 0.2) !important;
+}
+
+/* Progress (current active) step */
+.ant-steps-item-process .ant-steps-item-icon {
+  background-color: var(--color-green-custom) !important;
+  border-color: var(--color-green-custom) !important;
+}
+
+.ant-steps-item-process .ant-steps-icon,
+.ant-steps-item-process .ant-steps-icon > .anticon {
+  color: #fff !important;
+}
+
+/* Completed (finished) step */
+.ant-steps-item-finish .ant-steps-item-icon {
+  background-color: var(--color-green-custom) !important;
+  border-color: var(--color-green-custom) !important;
+}
+
+.ant-steps-item-finish .ant-steps-icon,
+.ant-steps-item-finish .ant-steps-icon > .anticon {
+  color: #fff !important;
+}
+
+/* Line between completed steps */
+.ant-steps-item-finish .ant-steps-item-tail::after,
+.ant-steps-item-process .ant-steps-item-tail::after {
+  background-color: var(--color-green-custom) !important;
+}
+
+button.ant-btn.ant-btn-default {
+  background-color: #fff;
+  border-color: var(--color-gray-custom);
+  color: var(--color-green-custom);
+}
+button.ant-btn.ant-btn-default:hover {
+  border-color: var(--color-green-custom) !important;
+  color: var(--color-green-custom) !important;
+}
+.ant-input,
+.ant-select-selector,
+.ant-picker,
+.ant-input-number,
+.ant-checkbox-inner,
+.ant-radio-inner {
+  border-color: #d9d9d9 !important;
+  box-shadow: none !important;
+}
+
+/* Hovered state with custom green */
+.ant-input:hover,
+.ant-select-selector:hover,
+.ant-picker:hover,
+.ant-input-number:hover,
+.ant-checkbox-inner:hover,
+.ant-radio-inner:hover {
+  border-color: var(--color-green-custom) !important;
+}
+
+/* Focused state with custom green */
+.ant-input:focus,
+.ant-select-focused .ant-select-selector,
+.ant-picker-focused,
+.ant-picker-input > input:focus,
+.ant-input-number-focused,
+.ant-radio-wrapper-checked .ant-radio-inner,
+.ant-checkbox-wrapper-checked .ant-checkbox-inner {
+  border-color: var(--color-green-custom) !important;
+  box-shadow: 0 0 0 2px rgba(82, 196, 26, 0.2) !important; /* Optional glow effect */
+}
+
+/* DatePicker outline removal on focus */
+.ant-picker-focused {
+  outline: none !important;
+}
+
+/* Radio selected and hover */
+.ant-radio-checked .ant-radio-inner,
+.ant-radio-wrapper:hover .ant-radio-inner {
+  border-color: var(--color-green-custom) !important;
+}
+
+/* Checkbox selected */
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: var(--color-green-custom) !important;
+  border-color: var(--color-green-custom) !important;
+}
+
+/* Select tick/checkmark color (single and multi-select) */
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background-color: #f6ffed !important; /* Optional subtle background */
+}
+.ant-select-item-option-selected .ant-select-item-option-content::before,
+.ant-select-item-option-selected .anticon-check {
+  color: var(--color-green-custom) !important;
+}
+
+/* Multi-select selected tag */
+.ant-select-selection-item {
+  background-color: #f6ffed !important;
+  border-color: var(--color-green-custom) !important;
+}
+
+/* Customizing the color of the spinner (ant-spin-dot-holder) */
+/* Customizing the color of the spinner (ant-spin-dot-holder) */
+.ant-spin .ant-spin-dot-holder {
+  color: var(--color-green-custom) !important;
+}
+
+:where(.css-dev-only-do-not-override-1v5z42l).ant-steps
+  .ant-steps-item-finish
+  > .ant-steps-item-container
+  > .ant-steps-item-content
+  > .ant-steps-item-title::after {
+  background-color: var(--color-green-custom) !important;
+}
+
+.ant-steps
+  .ant-steps-item-process
+  > .ant-steps-item-container
+  > .ant-steps-item-content
+  > .ant-steps-item-title::after {
+  background-color: lightgray !important;
+}
+
+.ant-radio-checked .ant-radio-inner,
+.ant-radio-wrapper:hover .ant-radio-inner {
+  background-color: var(--color-green-custom) !important;
+}
+
+/* globals.css or a component-level CSS file */
+.custom-menu .ant-menu-item {
+  border-radius: 8px; /* example */
+  transition: background-color 0.3s;
+  margin-bottom: 10px;
+  height: 50px !important;
+  display: flex;
+  align-items: center;
+}
+
+.custom-menu .ant-menu-item-selected {
+  background-color: #064526;
+  color: white;
+}
+
+.ant-spin .ant-spin-dot-item {
+  background: var(--color-green-custom) !important;
+}
+
+/* .ant-btn-variant-solid {
+  background: var(--color-green-custom) !important;
+} */
+
+
+.ant-btn-variant-solid:not(.ant-btn-dangerous) {
+  background: var(--color-green-custom) !important;
+}
+
+.ant-tabs .ant-tabs-tab:hover .ant-tabs-tab-btn {
+  color: var(--color-green-custom) !important;
+}
+/* For active tab text color */
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: var(--color-green-custom) !important;
+}
+
+/* Optional: also change the underline/ink-bar color */
+.ant-tabs-ink-bar {
+  background: var(--color-green-custom) !important;
+}
+
+.ant-tabs .ant-tabs-tab + .ant-tabs-tab {
+  margin: 0 0 0 10px !important;
+}
+
+.ant-btn-variant-solid {
+  color: #fff;
+  background: var(--color-green-custom);
+}
+
+/* Apply rounded borders only on the top-left and top-right of the tabs */
+
+.ant-tabs-tab-btn {
+  border: 0.2px solid #f0f0f0 !important;
+  border-bottom: none !important;
+  border-radius: 12px 12px 0 0 !important;
+  background: #ffffff !important;
+  padding: 8px 10px 0px 10px !important;
+}
+
+.ant-tabs-tab-active .ant-tabs-tab-btn {
+  border-top: 3px solid var(--color-green-custom) !important; /* green top border */
+  border-left: 0.2px solid #f0f0f0 !important;
+  border-right: 0.2px solid #f0f0f0 !important;
+  border-radius: 12px 15px 0 0 !important;
+}
+
+.ant-select-focused .ant-select-selector,
+.ant-select-selector:focus,
+.ant-select-selector:active,
+.ant-select-open .ant-select-selector {
+  border-color: #d9d9d9 !important;
+  box-shadow: none !important;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.ant-btn-variant-solid:disabled {
+  color: #fff !important;
+}
+
+/* Remove background from selected item */
+.ant-select-selection-item {
+  background-color: transparent !important;
+
+  border-color: var(--color-green-custom);
+}
+
+.ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover {
+  color: var(--color-green-custom);
+  border-color: var(--color-green-custom);
+  background: #ffffff;
+}
+
+.ant-btn:disabled,
+.ant-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ant-checkbox-disabled.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #064526 !important;
+  border-color: #064526 !important;
+}
+
+.ant-checkbox-disabled.ant-checkbox-checked .ant-checkbox-inner::after {
+  border-color: #fff !important;
+}
+
+

@@ -1,0 +1,53 @@
+/* Patient handout (rendered to PDF) */
+.na-handout-page {
+  width: 794px;
+  min-height: 1123px;
+  background: #fff;
+  padding: 34px 38px 64px;
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  color: #0f1f17;
+  position: relative;
+}
+.na-handout-page.rtl {
+  direction: rtl;
+  line-height: 1.6;
+}
+/* Urdu in Naskh style (as in Sindhi script), matching the approved screens. */
+.na-handout-page.rtl,
+.na-urdu {
+  font-family: "Noto Naskh Arabic", "Segoe UI", Tahoma, Arial, sans-serif;
+}
+.na-handout-footer {
+  position: absolute;
+  bottom: 20px;
+  left: 38px;
+  right: 38px;
+  font-size: 10px;
+  color: #6b7280;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 6px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.na-handout-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: #f2f7f4;
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin: 18px 0 14px;
+  font-size: 13px;
+}
+.na-handout-strip > div { display: flex; align-items: center; gap: 10px; }
+.na-handout-strip .l { color: #6b7280; font-size: 11px; }
+.na-handout-section {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #064526;
+  margin: 6px 0 10px;
+}

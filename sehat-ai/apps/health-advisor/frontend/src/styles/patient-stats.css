@@ -1,0 +1,41 @@
+.na-patient-details-form .ant-checkbox-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px 14px;
+}
+.na-patient-details-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid #edf1ee;
+}
+
+.na-stat {
+  border-radius: 10px;
+  padding: 10px 6px;
+  text-align: center;
+  background: #f7f9f8;
+  border: 1px solid #edf1ee;
+}
+.na-stat .i { color: var(--green-700, #0a5d34); font-size: 16px; }
+.na-stat .l { font-size: 12px; color: #5b6b62; margin-top: 2px; }
+.na-stat .v { font-size: 18px; font-weight: 700; color: #0f1f17; }
+.na-stat .v.off { color: #b42318; }
+.na-stat .t { font-size: 11px; color: #7b8a82; }
+
+.na-activity-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--green-50, #f0f7f3);
+  border: 1px solid var(--green-100, #dcece3);
+  cursor: pointer;
+  font-weight: 500;
+  color: #0f1f17;
+}
+

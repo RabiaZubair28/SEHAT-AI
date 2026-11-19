@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /$
+Allow: /sitemap.xml$
+Allow: /favicon.ico$
+Allow: /favicon.svg$
+Allow: /favicon-96x96.png$
+Allow: /apple-touch-icon.png$
+Allow: /site.webmanifest$
+Allow: /web-app-manifest-192x192.png$
+Allow: /web-app-manifest-512x512.png$
+Disallow: /
+
+Sitemap: https://emr.sindh.gov.pk/sitemap.xml

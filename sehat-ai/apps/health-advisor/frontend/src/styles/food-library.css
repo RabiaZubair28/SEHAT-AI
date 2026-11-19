@@ -1,0 +1,53 @@
+.na-add-tile {
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  border: 1px solid #e6ece8;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--green-700, #0a5d34);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  cursor: pointer;
+  font-size: 0;
+}
+.na-add-tile:hover { background: var(--green-50, #f0f7f3); border-color: var(--green-200, #b9d9c8); }
+.na-lib-card {
+  position: relative;
+  border: 1px solid #e6ece8;
+  border-radius: 12px;
+  padding: 5px 4px 6px;
+  text-align: center;
+  background: #fff;
+  cursor: grab;
+}
+.na-lib-card .na-food-img { width: 94px; height: 94px; }
+.na-lib-card .name { font-size: 10px; font-weight: 500; min-height: 26px; margin: 2px 0 0; line-height: 1.15; }
+.na-lib-card .ant-btn-circle { position: absolute; top: 3px; right: 3px; width: 24px; height: 24px; min-width: 24px; box-shadow: 0 1px 4px #0002; }
+.na-category-scroll {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 8px 1px 6px;
+  scrollbar-width: thin;
+  scrollbar-color: #b9d9c8 transparent;
+  overscroll-behavior-x: contain;
+}
+.na-category-pill {
+  flex: 0 0 auto;
+  border: 1px solid #dcece3;
+  border-radius: 999px;
+  padding: 5px 10px;
+  background: #f0f7f3;
+  color: #0a5d34;
+  font-size: 11px;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.na-category-pill:hover { border-color: #8cbea4; background: #e4f1e9; }
+.na-category-pill.active { border-color: #0a5d34; background: #0a5d34; color: #fff; }
+.na-category-pill:focus-visible { outline: 2px solid #0a5d34; outline-offset: 2px; }

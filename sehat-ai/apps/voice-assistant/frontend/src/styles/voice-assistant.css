@@ -1,0 +1,8 @@
+.voice-assistant-recorder button:focus-visible {
+  outline: 3px solid #087443;
+  outline-offset: 3px;
+}
+
+.voice-assistant-recorder button:disabled {
+  cursor: not-allowed;
+}

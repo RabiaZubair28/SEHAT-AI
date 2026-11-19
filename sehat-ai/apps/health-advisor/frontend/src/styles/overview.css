@@ -1,0 +1,82 @@
+/* Key/value boxes (Patient Summary) */
+.na-kv {
+  background: #f7f9f8;
+  border: 1px solid #edf1ee;
+  border-radius: 10px;
+  padding: 4px 16px;
+}
+.na-kv-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 0;
+  border-bottom: 1px solid #edf1ee;
+  font-size: 14px;
+}
+.na-kv-row:last-child { border-bottom: none; }
+.na-kv-row .k { color: #5b6b62; }
+.na-kv-row .v { font-weight: 500; color: #0f1f17; text-align: right; }
+.na-kv-row .v.issue { color: #b42318; }
+
+/* Target tiles */
+.na-tile {
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f7f9f8;
+  border: 1px solid #edf1ee;
+}
+.na-tile .label { font-size: 13px; color: #5b6b62; }
+.na-tile .value { font-size: 22px; font-weight: 700; color: #0f1f17; line-height: 1.25; }
+.na-tile .sub { font-size: 12px; color: #7b8a82; }
+
+/* Status chips */
+.na-chip {
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13px;
+  line-height: 1.4;
+  border: 1px solid transparent;
+}
+.na-chip.alert { background: #fef3f2; color: #b42318; border-color: #fee4e2; }
+.na-chip.attention { background: #fffaeb; color: #b54708; border-color: #fef0c7; }
+.na-chip.ok { background: var(--green-50, #f0f7f3); color: var(--green-700, #0a5d34); border-color: var(--green-100, #dcece3); }
+.na-chip.neutral { background: #f7f9f8; color: #4b5563; border-color: #edf1ee; }
+
+.na-row {
+  display: grid;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f3f1;
+}
+.na-row:last-child { border-bottom: none; }
+.na-finding-row { grid-template-columns: 44px minmax(0, 0.9fr) minmax(0, 1.1fr); }
+.na-finding-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--green-50, #f0f7f3);
+  color: var(--green-700, #0a5d34);
+  font-size: 22px;
+}
+
+/* Recommendations */
+.na-rec {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  border-radius: 12px;
+  padding: 10px;
+  border: 1px solid #edf1ee;
+  background: #fff;
+}
+.na-rec .title { font-weight: 600; font-size: 15px; color: var(--green-800, #064526); }
+.na-rec .detail { font-size: 13px; color: #374151; }
+.na-rec-icon { width: 48px; height: 48px; flex: 0 0 48px; font-size: 23px; }
+
+/* Food images */

@@ -1,0 +1,82 @@
+.na-preferences-section {
+  display: block;
+  width: 100%;
+  margin: 12px 0;
+  padding: 0;
+  border: 0;
+  color: var(--green-800, #064526);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
+}
+.na-patient-details-form .ant-form-item {
+  margin-bottom: 16px;
+}
+.na-patient-details-form .ant-form-item-label {
+  padding: 0 0 6px;
+}
+.na-patient-details-form .ant-checkbox-checked .ant-checkbox-inner,
+.na-patient-details-form .ant-checkbox-indeterminate .ant-checkbox-inner::after {
+  background-color: #0a5d34;
+  border-color: #0a5d34;
+}
+.na-patient-details-form .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.na-patient-details-form .ant-checkbox:hover .ant-checkbox-inner {
+  border-color: #0a5d34;
+}
+.na-patient-details-form .ant-radio-checked .ant-radio-inner {
+  border-color: #0a5d34;
+  background-color: #0a5d34;
+}
+.na-patient-details-form .ant-radio-wrapper:hover .ant-radio-inner,
+.na-patient-details-form .ant-radio:hover .ant-radio-inner {
+  border-color: #0a5d34;
+}
+.na-patient-details-form .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  color: #075532;
+  border-color: #0a5d34;
+}
+.na-patient-details-form .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
+  background-color: #0a5d34;
+}
+.na-patient-details-form .ant-radio-button-wrapper:hover {
+  color: #075532;
+}
+.na-patient-details-form .ant-select:hover .ant-select-selector,
+.na-patient-details-form .ant-select-focused .ant-select-selector {
+  border-color: #0a5d34 !important;
+  box-shadow: 0 0 0 2px rgb(10 93 52 / 10%) !important;
+}
+.na-patient-details-form .ant-select-selection-item {
+  border-color: #d3e7da;
+  background: #edf6f0;
+  color: #075532;
+}
+.na-green-select-popup .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background: #e6f2ea;
+  color: #075532;
+}
+.na-green-select-popup .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
+  background: #f1f8f3;
+}
+.na-green-segmented .ant-segmented-item-selected {
+  color: #075532;
+  background: #e6f2ea;
+  box-shadow: none;
+}
+.na-green-segmented .ant-segmented-item:hover:not(.ant-segmented-item-selected) {
+  color: #0a5d34;
+}
+.na-patient-details-form > .ant-form > .na-preferences-section:first-child {
+  margin-top: 0;
+}
+.na-recorded-conditions {
+  margin: 8px 0 14px;
+  padding: 9px 12px;
+  border: 1px solid #dcece3;
+  border-radius: 8px;
+  background: #f7fbf8;
+  color: #355746;
+  font-size: 13px;
+}

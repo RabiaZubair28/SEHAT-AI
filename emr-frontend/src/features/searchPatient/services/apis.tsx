@@ -1,0 +1,1 @@
+export const SEARCH_PATIENT_API = "SEARCH_PATIENT_API";

@@ -1,0 +1,347 @@
+{
+  "schema_version": "1.0",
+  "form_id": "patient_registration",
+  "section_id": "personal_details",
+  "title": "Patient Registration - Personal Details",
+  "voice_enabled": true,
+  "source": {
+    "frontend": [
+      "src/features/registerpatient/components/usePatientRegistrationHook.tsx",
+      "src/features/registerpatient/data/constants.ts",
+      "src/features/registerpatient/utils/helpers.tsx"
+    ],
+    "backend": [
+      "src/patients/dto/create-patient.dto.ts",
+      "src/patient-additional-info/dto/create-patient-additional-info.dto.ts",
+      "src/common/validators/cnic-length-by-nationality.validator.ts"
+    ]
+  },
+  "rules": {
+    "never_autosave": true,
+    "missing_values": "leave_unset",
+    "reference_resolution": "use_EMR_master_data_no_guessed_IDs",
+    "validation_authority": "backend_before_save",
+    "ui_validation": "mirror_EMR_frontend"
+  },
+  "fields": [
+    {
+      "name": "first_name",
+      "label": "First Name",
+      "type": "string",
+      "required": true,
+      "voice_enabled": true,
+      "payload_path": "first_name"
+    },
+    {
+      "name": "last_name",
+      "label": "Last Name",
+      "type": "string",
+      "required": true,
+      "voice_enabled": true,
+      "payload_path": "last_name"
+    },
+    {
+      "name": "guardian_name",
+      "label": "Father's/ Husband's Name",
+      "type": "string",
+      "required": true,
+      "voice_enabled": true,
+      "payload_path": "additional_info.guardian_name",
+      "validation": {
+        "max_length": 25,
+        "source": "backend"
+      }
+    },
+    {
+      "name": "nationalityStatus",
+      "label": "Nationality Status",
+      "type": "enum",
+      "required": true,
+      "voice_enabled": true,
+      "options": [
+        "Pakistani",
+        "Non-Pakistani"
+      ],
+      "payload_path": "nationalityStatus"
+    },
+    {
+      "name": "cnic_provider",
+      "label": "CNIC/National ID Provider",
+      "type": "enum",
+      "required": true,
+      "voice_enabled": true,
+      "options": [
+        "Self",
+        "Mother",
+        "Father",
+        "Sibling",
+        "Spouse",
+        "Uncle/Aunt (blood-relation)",
+        "Guardian",
+        "CNIC Not Available",
+        "Other"
+      ],
+      "options_rules": [
+        {
+          "when": {
+            "nationalityStatus": "Non-Pakistani"
+          },
+          "exclude": [
+            "CNIC Not Available"
+          ]
+        }
+      ],
+      "payload_path": "cnic_provider"
+    },
+    {
+      "name": "cnic",
+      "label": "CNIC",
+      "type": "string",
+      "required": true,
+      "required_when": {
+        "nationalityStatus": "Pakistani",
+        "cnic_provider": {
+          "not": "CNIC Not Available"
+        }
+      },
+      "visible_when": {
+        "nationalityStatus": "Pakistani",
+        "cnic_provider": {
+          "not": "CNIC Not Available"
+        }
+      },
+      "voice_enabled": true,
+      "validation": {
+        "digits_exactly": 13,
+        "normalize": "remove_non_digits"
+      },
+      "payload_path": "cnic",
+      "exclude_from_payload_when": {
+        "cnic_provider": "CNIC Not Available"
+      }
+    },
+    {
+      "name": "international_id",
+      "label": "International ID / Passport number",
+      "type": "string",
+      "required": false,
+      "visible_when": {
+        "nationalityStatus": "Non-Pakistani"
+      },
+      "voice_enabled": true,
+      "validation": {
+        "min_length": 6,
+        "max_length": 20
+      },
+      "payload_path": "cnic",
+      "notes": "Frontend helper maps this value into backend cnic for Non-Pakistani patients."
+    },
+    {
+      "name": "phone_provider",
+      "label": "Phone Relation",
+      "type": "enum",
+      "required": true,
+      "voice_enabled": true,
+      "options": [
+        "Self",
+        "Mother",
+        "Father",
+        "Sibling",
+        "Spouse",
+        "Uncle/Aunt (blood-relation)",
+        "Guardian",
+        "Other"
+      ],
+      "payload_path": "phone_provider"
+    },
+    {
+      "name": "phone_number",
+      "label": "Phone Number",
+      "type": "string",
+      "required": true,
+      "voice_enabled": true,
+      "validation": {
+        "frontend_regex": "^03[0-9]{9}$",
+        "normalize": "remove_non_digits",
+        "backend_min_length": 10,
+        "backend_max_length": 15
+      },
+      "payload_path": "phone_number"
+    },
+    {
+      "name": "dob",
+      "label": "Date of Birth",
+      "type": "date",
+      "required": true,
+      "voice_enabled": true,
+      "validation": {
+        "format": "YYYY-MM-DD",
+        "source": "backend IsDateString"
+      },
+      "payload_path": "dob"
+    },
+    {
+      "name": "age",
+      "label": "Age",
+      "type": "integer",
+      "required": false,
+      "voice_enabled": false,
+      "read_only": true,
+      "derived_from": "dob",
+      "payload_path": null
+    },
+    {
+      "name": "qr_number",
+      "label": "Immunisation QR number",
+      "type": "string",
+      "required": false,
+      "voice_enabled": true,
+      "visible_when": {
+        "patient_age_years": {
+          "less_than": 5
+        }
+      },
+      "validation": {
+        "frontend_exact_length": 14,
+        "backend_regex": "^[0-9]+$",
+        "backend_exact_length": 14
+      },
+      "payload_path": "immunisation_number"
+    },
+    {
+      "name": "scan_immunisation_card",
+      "label": "Immunisation card QR",
+      "type": "action",
+      "required": false,
+      "voice_enabled": false,
+      "visible_when": {
+        "patient_age_years": {
+          "less_than": 5
+        }
+      },
+      "payload_path": null
+    },
+    {
+      "name": "gender",
+      "label": "Sex",
+      "type": "enum",
+      "required": true,
+      "voice_enabled": true,
+      "options": [
+        "Male",
+        "Female",
+        "Other"
+      ],
+      "payload_path": "gender"
+    },
+    {
+      "name": "marital_status",
+      "label": "Marital Status",
+      "type": "enum",
+      "required": true,
+      "voice_enabled": true,
+      "options": [
+        "Single",
+        "Married",
+        "Divorced",
+        "Widowed",
+        "Other"
+      ],
+      "payload_path": "additional_info.marital_status"
+    },
+    {
+      "name": "blood_group",
+      "label": "Blood Group",
+      "type": "enum",
+      "required": false,
+      "voice_enabled": true,
+      "options": [
+        "A +ve",
+        "A -ve",
+        "B +ve",
+        "B -ve",
+        "AB +ve",
+        "AB -ve",
+        "O +ve",
+        "O -ve"
+      ],
+      "payload_path": "additional_info.blood_group"
+    },
+    {
+      "name": "address",
+      "label": "Address",
+      "type": "string",
+      "required": true,
+      "voice_enabled": true,
+      "payload_path": "address"
+    },
+    {
+      "name": "division_id",
+      "label": "Division",
+      "type": "reference",
+      "required": true,
+      "voice_enabled": true,
+      "reference": {
+        "entity": "division",
+        "resolve_by": "spoken_label",
+        "id_source": "EMR",
+        "on_change_clear": [
+          "district_id",
+          "taluka_id",
+          "uc_id"
+        ]
+      },
+      "payload_path": "division_id"
+    },
+    {
+      "name": "district_id",
+      "label": "District",
+      "type": "reference",
+      "required": true,
+      "voice_enabled": true,
+      "reference": {
+        "entity": "district",
+        "parent_field": "division_id",
+        "resolve_by": "spoken_label",
+        "id_source": "EMR",
+        "on_change_clear": [
+          "taluka_id",
+          "uc_id"
+        ]
+      },
+      "payload_path": "district_id"
+    },
+    {
+      "name": "taluka_id",
+      "label": "Taluka",
+      "type": "reference",
+      "required": true,
+      "voice_enabled": true,
+      "reference": {
+        "entity": "taluka",
+        "parent_field": "district_id",
+        "resolve_by": "spoken_label",
+        "id_source": "EMR",
+        "on_change_clear": [
+          "uc_id"
+        ]
+      },
+      "payload_path": "taluka_id"
+    },
+    {
+      "name": "uc_id",
+      "label": "UC",
+      "type": "reference",
+      "required": true,
+      "backend_optional": true,
+      "voice_enabled": true,
+      "reference": {
+        "entity": "uc",
+        "parent_field": "taluka_id",
+        "resolve_by": "spoken_label",
+        "id_source": "EMR"
+      },
+      "payload_path": "uc_id"
+    }
+  ]
+}

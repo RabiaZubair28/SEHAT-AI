@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2022",
+    "lib": [
+      "ES2023",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@health-advisor": [
+        "../sehat-ai/apps/health-advisor/frontend/src/index.ts"
+      ],
+      "@/*": [
+        "./src/*"
+      ],
+      "@sehat-voice": [
+        "../sehat-ai/apps/voice-assistant/frontend/src/index.ts"
+      ],
+      "@sehat-voice/*": [
+        "../sehat-ai/apps/voice-assistant/frontend/src/*"
+      ],
+      "@health-advisor/*": [
+        "../sehat-ai/apps/health-advisor/frontend/src/*"
+      ]
+    },
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": [
+    "src",
+    "../sehat-ai/apps/health-advisor/frontend/src"
+  ]
+}

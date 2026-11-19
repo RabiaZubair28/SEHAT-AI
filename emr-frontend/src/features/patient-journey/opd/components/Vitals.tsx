@@ -1,0 +1,39 @@
+import { Row, Col } from "antd";
+import { FormGenerator } from "@/components/shared/DynamicFormGenerator";
+
+export default function Vitals({
+  formFields,
+  editMode,
+}: {
+  formFields: any[];
+  editMode: boolean;
+}) {
+  // Find the "Vitals" tab (tabKey: "1") and get its fields
+  const tab = formFields.find((tab: any) => tab.tabKey === "1");
+  const filteredFields = tab?.fields || [];
+
+  return (
+    <div>
+      {filteredFields.length > 0 ? (
+        <Row gutter={16}>
+          {filteredFields.map((field: any) => (
+            <Col
+              key={field.name}
+              xs={24}
+              sm={24}
+              md={field.colSpan || 8}
+              lg={field.colSpan || 8}
+            >
+              {FormGenerator({
+                ...field,
+                disabled: !editMode || field.disabled,
+              })}
+            </Col>
+          ))}
+        </Row>
+      ) : (
+        <div>No fields to display</div>
+      )}
+    </div>
+  );
+}

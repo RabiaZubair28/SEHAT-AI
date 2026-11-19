@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "form_id": "patient_registration",
+  "section_id": "sociodemographic_details",
+  "title": "Patient Registration - Sociodemographic Details",
+  "voice_enabled": true,
+  "fields": [
+    {
+      "name": "mother_tongue",
+      "label": "Mother Tongue",
+      "type": "enum",
+      "required": false,
+      "voice_enabled": true,
+      "options": [
+        "Urdu",
+        "Sindhi",
+        "Siraiki",
+        "Punjabi",
+        "Pashto",
+        "Balochi",
+        "Balti",
+        "Farsi",
+        "Dari",
+        "Brohi",
+        "Dharki",
+        "Wakhi",
+        "Others"
+      ]
+    },
+    {
+      "name": "years_of_education",
+      "label": "Level of Education",
+      "type": "enum",
+      "required": false,
+      "voice_enabled": true,
+      "options": [
+        "No formal education",
+        "Primary",
+        "Secondary",
+        "Intermediate",
+        "Diploma",
+        "Bachelor or higher"
+      ]
+    },
+    {
+      "name": "dwelling_type",
+      "label": "Dwelling Type",
+      "type": "enum",
+      "required": false,
+      "voice_enabled": true,
+      "options": [
+        "Pakka home",
+        "Semi-pakka home",
+        "Katcha home"
+      ]
+    },
+    {
+      "name": "occupation_head_of_household",
+      "label": "Occupation of Head of Household",
+      "type": "enum",
+      "required": false,
+      "voice_enabled": true,
+      "options": [
+        "Laborer",
+        "Farmer",
+        "Government employee",
+        "Private employee",
+        "Shopkeeper",
+        "Business",
+        "Landlord",
+        "Others"
+      ]
+    },
+    {
+      "name": "household_members_count",
+      "label": "Household Members Count",
+      "type": "integer",
+      "required": false,
+      "voice_enabled": true,
+      "validation": {
+        "minimum": 0,
+        "maximum": 30
+      }
+    }
+  ]
+}

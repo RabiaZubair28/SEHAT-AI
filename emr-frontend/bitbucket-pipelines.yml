@@ -1,0 +1,164 @@
+image: node:22.14.0
+
+pipelines:
+  branches:
+    develop-dev:
+      - step:
+          name: Deploy to Dev Server
+          script:
+            - pipe: atlassian/ssh-run:0.8.1
+              variables:
+                SSH_USER: $STAGING_USER
+                SERVER: $STAGING_SERVER_IP
+                SSH_KEY: $SSH_PRIVATE_KEY
+                PORT: '1051'
+                MODE: 'command'
+                COMMAND: |
+                  set -e
+                  cd /home/immar/UAT/emr-frontend
+                  echo "Pulling latest changes from develop-dev branch..."
+                  git pull origin develop-dev
+                  echo "Building and restarting Docker containers..."
+                  docker compose down frontend-staging
+                  docker compose up -d --build frontend-staging
+                  echo "Deployment completed successfully!"
+                  docker compose ps
+
+    QA:
+      - step:
+          name: Deploy to QA Server
+          script:
+            - mkdir -p ~/.ssh
+            - (umask 077; echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa)
+            - |
+              cat > ~/.ssh/config << EOF
+              Host staging-jump
+                HostName $STAGING_SERVER_IP
+                User $STAGING_USER
+                Port 1051
+                IdentityFile ~/.ssh/id_rsa
+                StrictHostKeyChecking no
+
+              Host qa
+                HostName $PROD_SERVER_IP
+                User $PROD_USER
+                Port 8888
+                IdentityFile ~/.ssh/id_rsa
+                StrictHostKeyChecking no
+                ProxyJump staging-jump
+              EOF
+            - |
+              ssh qa << 'DEPLOY'
+              set -e
+              echo "Pulling latest changes from QA branch..."
+              sudo GIT_SSH_COMMAND="ssh -i /home/deploy/.immar/id_rsa -o StrictHostKeyChecking=no" git -C /root/staging/emr/emr-frontend pull origin QA
+              echo "Rebuilding and restarting frontend container..."
+              sudo docker compose -f /root/staging/emr/docker-compose.yml down frontend-staging
+              sudo docker compose -f /root/staging/emr/docker-compose.yml up -d --build frontend-staging
+              echo "QA deployment completed!"
+              sudo docker compose -f /root/staging/emr/docker-compose.yml ps
+              DEPLOY
+
+      - step:
+          name: Deploy to Mobile Server
+          script:
+            - mkdir -p ~/.ssh
+            - (umask 077; echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa)
+            - |
+              cat > ~/.ssh/config << EOF
+              Host staging-jump
+                HostName $STAGING_SERVER_IP
+                User $STAGING_USER
+                Port 1051
+                IdentityFile ~/.ssh/id_rsa
+                StrictHostKeyChecking no
+
+              Host mobile
+                HostName $PROD_SERVER_IP
+                User $PROD_USER
+                Port 8888
+                IdentityFile ~/.ssh/id_rsa
+                StrictHostKeyChecking no
+                ProxyJump staging-jump
+              EOF
+            - |
+              ssh mobile << 'DEPLOY'
+              set -e
+              echo "Pulling latest changes from QA branch..."
+              sudo GIT_SSH_COMMAND="ssh -i /home/deploy/.immar/id_rsa -o StrictHostKeyChecking=no" git -C /root/staging/emr-immunisation/emr-frontend pull origin QA
+              echo "Rebuilding and restarting frontend container..."
+              sudo docker compose -f /root/staging/emr-immunisation/docker-compose.yml down frontend-staging-imm
+              sudo docker compose -f /root/staging/emr-immunisation/docker-compose.yml up -d --build frontend-staging-imm
+              echo "Mobile deployment completed!"
+              sudo docker compose -f /root/staging/emr-immunisation/docker-compose.yml ps
+              DEPLOY
+
+    staging:
+      - step:
+          name: Deploy to Staging Server
+          script:
+            - mkdir -p ~/.ssh
+            - (umask 077; echo "$EMR_DEPLOY_SSH_KEY_B64" | base64 -d > ~/.ssh/id_rsa)
+            - |
+              cat > ~/.ssh/config << EOF
+              Host emr-jump
+                HostName $EMR_BASTION_IP
+                User $EMR_BASTION_USER
+                Port 8006
+                IdentityFile ~/.ssh/id_rsa
+                StrictHostKeyChecking no
+
+              Host staging
+                HostName $EMR_APP_IP
+                User $EMR_APP_USER
+                Port 22
+                IdentityFile ~/.ssh/id_rsa
+                StrictHostKeyChecking no
+                ProxyJump emr-jump
+              EOF
+            - |
+              ssh staging << 'DEPLOY'
+              set -e
+              echo "Pulling latest changes from staging branch..."
+              git -C /opt/emr/staging/emr-frontend pull origin staging
+              echo "Rebuilding and restarting frontend container..."
+              docker compose -f /opt/emr/staging/docker-compose.yml down frontend
+              docker compose -f /opt/emr/staging/docker-compose.yml up -d --build frontend
+              echo "Staging deployment completed!"
+              docker compose -f /opt/emr/staging/docker-compose.yml ps
+              DEPLOY
+
+    main:
+      - step:
+          name: Deploy to Production Server
+          script:
+            - mkdir -p ~/.ssh
+            - (umask 077; echo "$EMR_DEPLOY_SSH_KEY_B64" | base64 -d > ~/.ssh/id_rsa)
+            - |
+              cat > ~/.ssh/config << EOF
+              Host emr-jump
+                HostName $EMR_BASTION_IP
+                User $EMR_BASTION_USER
+                Port 8006
+                IdentityFile ~/.ssh/id_rsa
+                StrictHostKeyChecking no
+
+              Host production
+                HostName $EMR_APP_IP
+                User $EMR_APP_USER
+                Port 22
+                IdentityFile ~/.ssh/id_rsa
+                StrictHostKeyChecking no
+                ProxyJump emr-jump
+              EOF
+            - |
+              ssh production << 'DEPLOY'
+              set -e
+              echo "Pulling latest changes from main branch..."
+              git -C /opt/emr/emr-frontend pull origin main
+              echo "Rebuilding and restarting frontend container..."
+              docker compose -f /opt/emr/docker-compose.yml down frontend
+              docker compose -f /opt/emr/docker-compose.yml up -d --build frontend
+              echo "Production deployment completed!"
+              docker compose -f /opt/emr/docker-compose.yml ps
+              DEPLOY

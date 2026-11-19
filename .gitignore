@@ -1,0 +1,35 @@
+# Environment files (secrets) — root and every subfolder
+.env
+.env.*
+*.env
+**/.env
+**/.env.*
+
+# Python virtual environments
+venv/
+.venv/
+env/
+**/venv/
+**/.venv/
+
+# Claude / AI assistant folders and local settings
+.claude/
+**/.claude/
+.claude.json
+CLAUDE.local.md
+**/CLAUDE.local.md
+
+# Dependencies and build output
+node_modules
+dist/
+build/
+coverage/
+__pycache__/
+*.pyc
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log

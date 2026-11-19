@@ -1,0 +1,67 @@
+.na-food-img { object-fit: contain; display: block; user-select: none; }
+
+/* Meal plan editor */
+.na-meal-row {
+  display: grid;
+  grid-template-columns: 108px minmax(0, 1fr);
+  gap: 8px;
+  align-items: center;
+  border: 1px solid #edf1ee;
+  border-radius: 12px;
+  padding: 6px;
+  background: #fff;
+  transition: border-color 0.15s, background 0.15s;
+}
+.na-meal-row.drop-target { border-color: var(--green-400, #4e9271); background: var(--green-50, #f0f7f3); }
+.na-meal-foods { min-width: 0; align-items: stretch; }
+.na-food-card {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: center;
+  border: 1px solid #e6ece8;
+  border-radius: 10px;
+  padding: 5px 6px 6px;
+  background: #fff;
+  width: 140px;
+  max-width: 140px;
+  min-width: 0;
+  flex: 1 1 0;
+  position: relative;
+}
+.na-food-card .na-food-img { width: min(100px, 100%); height: auto; aspect-ratio: 1; }
+.na-food-card-info { width: 100%; min-width: 0; text-align: center; }
+.na-food-card-name { font-size: 11px; font-weight: 600; line-height: 1.15; }
+.na-food-card-serving { font-size: 9px; line-height: 1.1; }
+.na-food-card.error { border-color: #fda29b; background: #fffbfa; }
+.na-food-card .actions {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.na-food-card:hover .actions,
+.na-food-card:focus-within .actions { opacity: 1; }
+.na-stepper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #dfe6e1;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+.na-stepper button {
+  width: 20px;
+  height: 19px;
+  border: none;
+  background: #fff;
+  color: #374151;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+}
+.na-stepper button:hover:not(:disabled) { background: var(--green-50, #f0f7f3); }
+.na-stepper button:disabled { color: #c4ccc7; cursor: not-allowed; }
+.na-stepper span { min-width: 22px; text-align: center; font-weight: 600; font-size: 10px; }
